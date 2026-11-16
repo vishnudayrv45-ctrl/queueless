@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="ui.demo.title">WhatsApp demo – QueueLess</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap">
+  <script>document.documentElement.className += ' i18n-wait';</script>
+</head>
+<body>
+  <main class="page">
+    <div class="narrow">
+      <div class="page-head">
+        <h1 style="font-size:2rem" data-i18n="ui.demo.h1">WhatsApp messages (demo)</h1>
+        <p class="muted" data-i18n="ui.demo.sub">No real WhatsApp credentials are set, so QueueLess shows the messages it would send. Enter the number used for the token.</p>
+      </div>
+
+      <form class="card" id="demoForm" novalidate>
+        <div class="field" style="margin-bottom:12px">
+          <label for="demoPhone" data-i18n="ui.home.form.phone">Mobile number (WhatsApp)</label>
+          <input id="demoPhone" type="tel" inputmode="numeric" autocomplete="tel" data-i18n-ph="ui.home.form.phone.ph" placeholder="10 digits">
+        </div>
+        <p class="form-error" id="demoError" role="alert" hidden></p>
+        <button class="btn btn-primary" type="submit" data-i18n="ui.demo.show">Show messages</button>
+      </form>
+
+      <div class="phone" id="phone" hidden>
+        <div class="phone-top"><span id="phoneTitle">QueueLess</span><span class="demo-badge" data-i18n="ui.demo.badge">Demo mode</span></div>
+        <div class="phone-body" id="chat" aria-live="polite"></div>
+      </div>
+      <p style="text-align:center;margin-top:18px"><a href="/track.html" data-i18n="ui.demo.back">Back to tracking</a></p>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/whatsapp-demo.js"></script>
+</body>
+</html>

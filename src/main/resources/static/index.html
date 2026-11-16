@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="ui.home.title">QueueLess – Get your token, skip the line</title>
+  <meta name="description" data-i18n-content="ui.home.meta" content="Get a digital token, track your place in the queue and see your estimated waiting time at government offices and public service centres.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap">
+  <script>document.documentElement.className += ' i18n-wait';</script>
+  <script>
+    // Show the welcome animation only once per browser session.
+    try { if (sessionStorage.getItem('ql_intro') && location.search.indexOf('intro') === -1) { document.documentElement.className = 'no-intro'; } } catch (e) {}
+  </script>
+  <style>.no-intro .intro { display: none; }</style>
+</head>
+<body>
+
+  <!-- SevaGate: welcome animation -->
+  <div class="intro" id="intro" role="dialog" data-i18n-aria="ui.home.intro.aria" aria-label="Welcome to QueueLess">
+    <canvas id="introCanvas" aria-hidden="true"></canvas>
+    <div class="intro-text">
+      <span class="intro-kicker">SevaGate</span>
+      <h1 class="intro-title" aria-label="QueueLess">
+        <span style="animation-delay:.5s">Q</span><span style="animation-delay:.58s">u</span><span style="animation-delay:.66s">e</span><span style="animation-delay:.74s">u</span><span style="animation-delay:.82s">e</span><span style="animation-delay:.9s">L</span><span style="animation-delay:.98s">e</span><span style="animation-delay:1.06s">s</span><span style="animation-delay:1.14s">s</span>
+      </h1>
+      <p class="intro-tag" data-i18n="ui.home.intro.tag">Every turn, on time.</p>
+    </div>
+    <button class="btn btn-primary intro-enter" id="introEnter" type="button" data-i18n="ui.home.intro.enter">Enter</button>
+    <button class="intro-skip" id="introSkip" type="button" data-i18n="ui.home.intro.skip">Skip</button>
+  </div>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow" data-i18n="ui.home.eyebrow">Smart queue management</span>
+          <h1 data-i18n="ui.home.h1">Get a token. Wait anywhere. Be served on time.</h1>
+          <p class="lead" data-i18n="ui.home.lead">No more standing in long lines. Pick your service, receive a digital token, and watch your position and estimated waiting time update live.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#get-token" data-i18n="ui.home.cta.get">Get a token</a>
+            <a class="btn" href="/track.html" data-i18n="ui.home.cta.track">Track my token</a>
+          </div>
+          <div id="resume" hidden></div>
+          <div class="lang-pick" role="group" aria-labelledby="langPickLabel">
+            <span class="lang-pick-label" id="langPickLabel" data-i18n="ui.home.lang.pick">Choose your language</span>
+            <div class="lang-pick-row" id="langPick"></div>
+          </div>
+        </div>
+        <div class="card scene-card">
+          <canvas id="heroCanvas" role="img" data-i18n-aria="ui.home.hero.aria" aria-label="Animation of people standing in a queue and moving forward one by one"></canvas>
+          <div class="scene-caption" data-i18n="ui.home.hero.caption">Everyone moves forward one by one. Priority customers are served first.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="get-token">
+      <div class="narrow" style="width:min(760px,100% - 40px)">
+        <div class="card" id="tokenCard">
+          <h2 data-i18n="ui.home.form.title">Get your token</h2>
+          <p class="muted" data-i18n="ui.home.form.sub">It takes less than a minute. We use your mobile number only to make sure nobody else can cancel your token.</p>
+
+          <form id="tokenForm" novalidate>
+            <div class="field">
+              <label id="svcLabel" data-i18n="ui.home.form.service">1. Choose a service</label>
+              <div class="service-list" id="serviceList" role="radiogroup" aria-labelledby="svcLabel">
+                <p class="muted" data-i18n="ui.home.form.loading">Loading services…</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="field">
+                <label for="name" data-i18n="ui.home.form.name">2. Your name</label>
+                <input id="name" name="name" type="text" autocomplete="name" maxlength="80" required>
+              </div>
+              <div class="field">
+                <label for="phone" data-i18n="ui.home.form.phone">Mobile number</label>
+                <input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" data-i18n-ph="ui.home.form.phone.ph" placeholder="10 digits" required>
+              </div>
+            </div>
+
+            <div class="field" id="waField" hidden>
+              <label class="inline-check" for="waOptin"><input type="checkbox" id="waOptin" checked><span data-i18n="ui.wa.optin">Send me updates on WhatsApp</span></label>
+              <p class="hint" data-i18n="ui.wa.hint">You will get a confirmation, an alert when your turn is near, when you are called, and if your token is cancelled or delayed.</p>
+            </div>
+
+            <div class="field">
+              <label for="priority" data-i18n="ui.home.form.priority">3. Priority</label>
+              <select id="priority" name="priority">
+                <option value="NORMAL" data-i18n="ui.home.form.priority.NORMAL">Regular</option>
+                <option value="SENIOR" data-i18n="ui.home.form.priority.SENIOR">Senior citizen (60 years or above)</option>
+                <option value="DISABLED" data-i18n="ui.home.form.priority.DISABLED">Person with disability</option>
+              </select>
+              <p class="hint" data-i18n="ui.home.form.hint">Priority tokens are called first. Please carry a valid ID or certificate; staff may check it at the counter.</p>
+            </div>
+
+            <p class="form-error" id="formError" role="alert" hidden></p>
+            <button class="btn btn-primary" id="submitBtn" type="submit" data-i18n="ui.home.form.submit">Get my token</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 data-i18n="ui.how.title">How it works</h2>
+        <div class="steps">
+          <div class="step"><span class="step-no">1</span><div><h3 data-i18n="ui.how.1.t">Get a token</h3><p data-i18n="ui.how.1.d">Choose a service and enter your name and mobile number.</p></div></div>
+          <div class="step"><span class="step-no">2</span><div><h3 data-i18n="ui.how.2.t">Track from anywhere</h3><p data-i18n="ui.how.2.d">See how many people are ahead and how long you may wait.</p></div></div>
+          <div class="step"><span class="step-no">3</span><div><h3 data-i18n="ui.how.3.t">Walk to the counter</h3><p data-i18n="ui.how.3.d">When your number shows on the live board, go to your counter.</p></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/scene3d.js"></script>
+  <script src="/js/home.js"></script>
+</body>
+</html>

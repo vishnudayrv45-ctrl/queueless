@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="ui.board.title">Live board – QueueLess</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap">
+  <script>document.documentElement.className += ' i18n-wait';</script>
+</head>
+<body>
+  <main class="board-wrap">
+    <div class="container">
+      <div class="board-top">
+        <div>
+          <h1 style="font-size:2rem;margin:0" data-i18n="ui.board.h1">Now serving</h1>
+          <p class="muted" style="margin:0" id="updated" data-i18n="ui.board.connecting">Connecting…</p>
+        </div>
+        <div style="text-align:right">
+          <div class="board-clock" id="clock" aria-hidden="true"></div>
+          <button class="btn btn-small" id="sound" type="button" aria-pressed="false" data-i18n="ui.board.voice.off">Voice announcements: off</button>
+        </div>
+      </div>
+
+      <div class="board-grid" id="counters" aria-live="polite"></div>
+
+      <div class="card" style="margin-top:24px">
+        <h2 style="font-size:1.3rem" data-i18n="ui.board.waiting.h">People waiting</h2>
+        <table class="wait-table">
+          <thead><tr><th data-i18n="ui.board.th.service">Service</th><th data-i18n="ui.board.th.waiting">Waiting</th><th data-i18n="ui.board.th.eta">Estimated wait</th></tr></thead>
+          <tbody id="waiting"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/board.js"></script>
+</body>
+</html>

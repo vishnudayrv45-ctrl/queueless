@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="ui.track.title">Track my token – QueueLess</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap">
+  <script>document.documentElement.className += ' i18n-wait';</script>
+</head>
+<body>
+  <main class="page">
+    <div class="narrow">
+      <div class="page-head">
+        <h1 style="font-size:2rem" data-i18n="ui.track.h1">Track my token</h1>
+        <p class="muted" data-i18n="ui.track.sub">Enter your token number to see your position and estimated waiting time. This page refreshes by itself.</p>
+      </div>
+
+      <form class="card" id="lookup" novalidate>
+        <div class="field" style="margin-bottom:12px">
+          <label for="number" data-i18n="ui.track.number">Token number</label>
+          <input id="number" type="text" autocomplete="off" autocapitalize="characters" maxlength="12" data-i18n-ph="ui.track.number.ph" placeholder="For example C-014" required>
+        </div>
+        <p class="form-error" id="lookupError" role="alert" hidden></p>
+        <button class="btn btn-primary" type="submit" data-i18n="ui.track.check">Check status</button>
+      </form>
+
+      <div id="result" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/scene3d.js"></script>
+  <script src="/js/track.js"></script>
+</body>
+</html>
